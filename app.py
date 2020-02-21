@@ -195,6 +195,8 @@ def show_artist(artist_id):
   if not artist:
     abort(404)
     
+  artist.genres = artist.genres.strip('{}').split(',')
+    
   return render_template('pages/show_artist.html', artist=artist)
 
 #  Update
@@ -285,6 +287,7 @@ def create_artist_form():
 @app.route('/artists/create', methods=['POST'])
 def create_artist_submission():
   form = ArtistForm()
+    
   artist = Artist(name=form.name.data, city=form.city.data, state=form.state.data,
                   phone=form.phone.data, genres=form.genres.data,
                   image_link=form.image_link.data, facebook_link=form.facebook_link.data)
