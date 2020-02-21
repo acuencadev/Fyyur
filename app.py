@@ -74,26 +74,6 @@ app.jinja_env.filters['datetime'] = format_datetime
 #----------------------------------------------------------------------------#
 # Controllers.
 #----------------------------------------------------------------------------#
-@app.route('/test')
-def test_route():
-  q = db.session.query(Venue.city, Venue.state).\
-                group_by(Venue.city, Venue.state)
-
-  venues = []
-  
-  for row in q.all():
-    venue = {
-      'city': row.city,
-      'state': row.state,
-      'venues': Venue.query.filter_by(city=row.city, state=row.state).all()
-    }
-    venues.append(venue)
-  
-  print(venues)
-  
-  return ""
-
-
 @app.route('/')
 def index():
   return render_template('pages/home.html')
