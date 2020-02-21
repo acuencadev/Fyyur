@@ -122,6 +122,7 @@ def show_venue(venue_id):
   if not venue:
     abort(404)
     
+  venue.genres = venue.genres.strip('{}').split(',')
   
   return render_template('pages/show_venue.html', venue=venue)
 
@@ -137,7 +138,7 @@ def create_venue_form():
 def create_venue_submission():
   form = VenueForm()
   venue = Venue(name=form.name.data, city=form.city.data, state=form.state.data,
-                address=form.address.data, phone=form.phone.data,
+                address=form.address.data, phone=form.phone.data, genres=form.genres.data,
                 image_link=form.image_link.data, facebook_link=form.facebook_link.data)
   
   if form.validate_on_submit():
@@ -209,7 +210,7 @@ def edit_artist(artist_id):
     abort(404)
   
   form = ArtistForm(name=artist.name, city=artist.city, state=artist.state,
-                    phone=artist.phone, genres=artist.genres,
+                    phone=artist.phone, genres=artist.genres.strip('{}').split(','),
                     image_link=artist.image_link, facebook_link=artist.facebook_link)
   
   return render_template('forms/edit_artist.html', form=form, artist=artist)
@@ -231,7 +232,7 @@ def edit_artist_submission(artist_id):
     artist.genres = form.genres.data
     artist.image_link = form.image_link.data
     artist.facebook_link = form.facebook_link.data
-  
+      
     db.session.commit()
     
     return redirect(url_for('show_artist', artist_id=artist_id))
@@ -247,6 +248,7 @@ def edit_venue(venue_id):
   
   form = VenueForm(name=venue.name, city=venue.city, state=venue.state,
                    address=venue.address, phone=venue.phone,
+                   genres=venue.genres.strip('{}').split(','),
                    facebook_link=venue.facebook_link)
 
   return render_template('forms/edit_venue.html', form=form, venue=venue)
@@ -264,6 +266,7 @@ def edit_venue_submission(venue_id):
     venue.name = form.name.data
     venue.city = form.city.data
     venue.state = form.state.data
+    venue.genres= form.genres.data
     venue.phone = form.phone.data
     venue.address = form.address.data
     venue.image_link = form.image_link.data
