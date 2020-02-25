@@ -146,7 +146,7 @@ def create_venue_form():
 @app.route('/venues/create', methods=['POST'])
 def create_venue_submission():
   form = VenueForm()
-  venue = Venue(name=form.name.data, city=form.city.data, state=form.state.data,
+  venue = Venue(name=form.name.data, city=form.city.data, state=str(form.state.data),
                 address=form.address.data, phone=form.phone.data,
                 genres=Genre.list_to_string(form.genres.data),
                 image_link=form.image_link.data, facebook_link=form.facebook_link.data)
@@ -236,7 +236,7 @@ def edit_artist_submission(artist_id):
   if form.validate_on_submit():
     artist.name = form.name.data
     artist.city = form.city.data
-    artist.state = form.state.data
+    artist.state = str(form.state.data)
     artist.phone = form.phone.data
     artist.genres = Genre.list_to_string(form.genres.data)
     artist.image_link = form.image_link.data
@@ -274,7 +274,7 @@ def edit_venue_submission(venue_id):
   if form.validate_on_submit():
     venue.name = form.name.data
     venue.city = form.city.data
-    venue.state = form.state.data
+    venue.state = str(form.state.data)
     venue.genres= Genre.list_to_string(form.genres.data)
     venue.phone = form.phone.data
     venue.address = form.address.data
@@ -300,7 +300,7 @@ def create_artist_form():
 def create_artist_submission():
   form = ArtistForm()
     
-  artist = Artist(name=form.name.data, city=form.city.data, state=form.state.data,
+  artist = Artist(name=form.name.data, city=form.city.data, state=str(form.state.data),
                   phone=form.phone.data, genres=Genre.list_to_string(form.genres.data),
                   image_link=form.image_link.data, facebook_link=form.facebook_link.data)
   

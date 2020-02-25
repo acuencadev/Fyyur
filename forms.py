@@ -41,6 +41,72 @@ class Genre(Enum):
     @staticmethod
     def list_to_string(lst):
         return [str(elem) for elem in lst]
+    
+class State(Enum):
+    AL = 'AL'
+    AK = 'AK'
+    AZ = 'AZ'
+    AR = 'AR'
+    CA = 'CA'
+    CO = 'CO'
+    CT = 'CT'
+    DE = 'DE'
+    DC = 'DC'
+    FL = 'FL'
+    GA = 'GA'
+    HI = 'HI'
+    ID = 'ID'
+    IL = 'IL'
+    IN = 'IN'
+    IA = 'IA'
+    KS = 'KS'
+    KY = 'KY'
+    LA = 'LA'
+    ME = 'ME'
+    MT = 'MT'
+    NE = 'NE'
+    NV = 'NV'
+    NH = 'NH'
+    NJ = 'NJ'
+    NM = 'NM'
+    NY = 'NY'
+    NC = 'NC'
+    ND = 'ND'
+    OH = 'OH'
+    OK = 'OK'
+    OR = 'OR'
+    MD = 'MD'
+    MA = 'MA'
+    MI = 'MI'
+    MN = 'MN'
+    MS = 'MS'
+    MO = 'MO'
+    PA = 'PA'
+    RI = 'RI'
+    SC = 'SC'
+    SD = 'SD'
+    TN = 'TN'
+    TX = 'TX'
+    UT = 'UT'
+    VT = 'VT'
+    VA = 'VA'
+    WA = 'WA'
+    WV = 'WV'
+    WI = 'WI'
+    WY = 'WY'
+    
+    def __str__(self):
+        return self.value
+    
+    @classmethod
+    def choices(cls):
+        return [(choice, choice.value) for choice in cls]
+    
+    @classmethod
+    def coerce(cls, item):
+        item = cls(item) if not isinstance(item, cls) else item
+        
+        return item
 
 class ShowForm(FlaskForm):
     artist_id = StringField(
@@ -64,59 +130,8 @@ class VenueForm(FlaskForm):
     )
     state = SelectField(
         'state', validators=[DataRequired()],
-        choices=[
-            ('AL', 'AL'),
-            ('AK', 'AK'),
-            ('AZ', 'AZ'),
-            ('AR', 'AR'),
-            ('CA', 'CA'),
-            ('CO', 'CO'),
-            ('CT', 'CT'),
-            ('DE', 'DE'),
-            ('DC', 'DC'),
-            ('FL', 'FL'),
-            ('GA', 'GA'),
-            ('HI', 'HI'),
-            ('ID', 'ID'),
-            ('IL', 'IL'),
-            ('IN', 'IN'),
-            ('IA', 'IA'),
-            ('KS', 'KS'),
-            ('KY', 'KY'),
-            ('LA', 'LA'),
-            ('ME', 'ME'),
-            ('MT', 'MT'),
-            ('NE', 'NE'),
-            ('NV', 'NV'),
-            ('NH', 'NH'),
-            ('NJ', 'NJ'),
-            ('NM', 'NM'),
-            ('NY', 'NY'),
-            ('NC', 'NC'),
-            ('ND', 'ND'),
-            ('OH', 'OH'),
-            ('OK', 'OK'),
-            ('OR', 'OR'),
-            ('MD', 'MD'),
-            ('MA', 'MA'),
-            ('MI', 'MI'),
-            ('MN', 'MN'),
-            ('MS', 'MS'),
-            ('MO', 'MO'),
-            ('PA', 'PA'),
-            ('RI', 'RI'),
-            ('SC', 'SC'),
-            ('SD', 'SD'),
-            ('TN', 'TN'),
-            ('TX', 'TX'),
-            ('UT', 'UT'),
-            ('VT', 'VT'),
-            ('VA', 'VA'),
-            ('WA', 'WA'),
-            ('WV', 'WV'),
-            ('WI', 'WI'),
-            ('WY', 'WY'),
-        ]
+        choices=State.choices(),
+        coerce=State.coerce
     )
     address = StringField(
         'address', validators=[DataRequired()]
@@ -145,62 +160,10 @@ class ArtistForm(FlaskForm):
     )
     state = SelectField(
         'state', validators=[DataRequired()],
-        choices=[
-            ('AL', 'AL'),
-            ('AK', 'AK'),
-            ('AZ', 'AZ'),
-            ('AR', 'AR'),
-            ('CA', 'CA'),
-            ('CO', 'CO'),
-            ('CT', 'CT'),
-            ('DE', 'DE'),
-            ('DC', 'DC'),
-            ('FL', 'FL'),
-            ('GA', 'GA'),
-            ('HI', 'HI'),
-            ('ID', 'ID'),
-            ('IL', 'IL'),
-            ('IN', 'IN'),
-            ('IA', 'IA'),
-            ('KS', 'KS'),
-            ('KY', 'KY'),
-            ('LA', 'LA'),
-            ('ME', 'ME'),
-            ('MT', 'MT'),
-            ('NE', 'NE'),
-            ('NV', 'NV'),
-            ('NH', 'NH'),
-            ('NJ', 'NJ'),
-            ('NM', 'NM'),
-            ('NY', 'NY'),
-            ('NC', 'NC'),
-            ('ND', 'ND'),
-            ('OH', 'OH'),
-            ('OK', 'OK'),
-            ('OR', 'OR'),
-            ('MD', 'MD'),
-            ('MA', 'MA'),
-            ('MI', 'MI'),
-            ('MN', 'MN'),
-            ('MS', 'MS'),
-            ('MO', 'MO'),
-            ('PA', 'PA'),
-            ('RI', 'RI'),
-            ('SC', 'SC'),
-            ('SD', 'SD'),
-            ('TN', 'TN'),
-            ('TX', 'TX'),
-            ('UT', 'UT'),
-            ('VT', 'VT'),
-            ('VA', 'VA'),
-            ('WA', 'WA'),
-            ('WV', 'WV'),
-            ('WI', 'WI'),
-            ('WY', 'WY'),
-        ]
+        choices=State.choices(),
+        coerce=State.coerce
     )
     phone = StringField(
-        # TODO implement validation logic for state
         'phone'
     )
     image_link = StringField(
@@ -212,7 +175,6 @@ class ArtistForm(FlaskForm):
         coerce=Genre.coerce
     )
     facebook_link = StringField(
-        # TODO implement enum restriction
         'facebook_link', validators=[URL()]
     )
 
