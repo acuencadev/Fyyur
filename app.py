@@ -4,10 +4,12 @@
 
 import json
 import dateutil.parser
+import datetime
 import babel
 from flask import Flask, render_template, request, Response, flash, redirect, url_for, abort
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 from flask_migrate import Migrate
 import logging
 from logging import Formatter, FileHandler
@@ -131,9 +133,23 @@ def show_venue(venue_id):
   if not venue:
     abort(404)
     
+  upcoming_shows = db.session.query(Show).join(Show.artist).\
+    filter(Show.venue_id == venue_id).\
+    filter(Show.start_time >= datetime.utcnow()).all()
+    
+  past_shows = db.session.query(Show).join(Show.artist).\
+    filter(Show.venue_id == venue_id).\
+    filter(Show.start_time < datetime.utcnow()).all()
+    
   venue.genres = venue.genres.strip('{}').split(',')
   
-  return render_template('pages/show_venue.html', venue=venue)
+  data = {
+    'venue': venue,
+    'upcoming_shows': upcoming_shows,
+    'past_shows': past_shows
+  }
+  
+  return render_template('pages/show_venue.html', **data)
 
 #  Create Venue
 #  ----------------------------------------------------------------
