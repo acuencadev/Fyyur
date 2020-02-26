@@ -45,7 +45,7 @@
 		{% endif %}
 	</div>
 	<div class="col-sm-6">
-		<img src="{{ venue.image_link }}" alt="Venue Image" />
+		<img src="{% if venue.image_link %} {{ venue.image_link }} {% else %} {{ url_for('static', filename='img/venue_placeholder.jpg') }} {% endif %}" width="400" alt="Venue Image" />
 	</div>
 </div>
 <section>
@@ -54,7 +54,7 @@
 		{%for show in upcoming_shows %}
 		<div class="col-sm-4">
 			<div class="tile tile-show">
-				<img src="{{ show.artist.image_link }}" alt="Show Artist Image" />
+				<img src="{% if show.artist.image_link %} {{ show.artist.image_link }} {% else %} {{ url_for('static', filename='img/band_placeholder.jpg') }} {% endif %}" alt="Show Artist Image" />
 				<h5><a href="/artists/{{ show.artist_id }}">{{ show.artist.name }}</a></h5>
 				<h6>{{ show.start_time }}</h6>
 			</div>
@@ -68,7 +68,7 @@
 		{%for show in past_shows %}
 		<div class="col-sm-4">
 			<div class="tile tile-show">
-				<img src="{{ show.artist.image_link }}" alt="Show Artist Image" />
+				<img src="{% if show.artist.image_link %} {{ show.artist.image_link }} {% else %} {{ url_for('static', filename='img/band_placeholder.jpg') }} {% endif %}" alt="Show Artist Image" />
 				<h5><a href="/artists/{{ show.artist_id }}">{{ show.artist.name }}</a></h5>
 				<h6>{{ show.start_time }}</h6>
 			</div>
