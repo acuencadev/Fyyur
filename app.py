@@ -315,7 +315,6 @@ def edit_venue_submission(venue_id):
   
     return redirect(url_for('show_venue', venue_id=venue_id))
   else:
-    print(form.errors)
     return redirect(url_for('edit_venue', venue_id=venue_id))
 
 #  Create Artist
