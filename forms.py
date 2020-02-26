@@ -177,8 +177,3 @@ class ArtistForm(FlaskForm):
     facebook_link = StringField(
         'facebook_link', validators=[URL()]
     )
-
-class ShowForm(FlaskForm):
-    artist_id = StringField('Artist Id', validators=[DataRequired()])
-    venue_id = StringField('Venue Id', validators=[DataRequired()])
-    start_time = DateTimeField('Start Time', validators=[DataRequired()])

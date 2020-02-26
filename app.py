@@ -332,7 +332,7 @@ def create_shows():
 @app.route('/shows/create', methods=['POST'])
 def create_show_submission():
   form = ShowForm()
-  
+    
   if form.validate_on_submit():
     artist = Artist.query.get(form.artist_id.data)
     venue = Venue.query.get(form.venue_id.data)
