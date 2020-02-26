@@ -221,9 +221,23 @@ def show_artist(artist_id):
   if not artist:
     abort(404)
     
-  artist.genres = artist.genres.strip('{}').split(',')
+  upcoming_shows = db.session.query(Show).join(Show.venue).\
+    filter(Show.artist_id == artist_id).\
+    filter(Show.start_time >= datetime.utcnow()).all()
     
-  return render_template('pages/show_artist.html', artist=artist)
+  past_shows = db.session.query(Show).join(Show.venue).\
+    filter(Show.artist_id == artist_id).\
+    filter(Show.start_time < datetime.utcnow()).all()
+    
+  artist.genres = artist.genres.strip('{}').split(',')
+  
+  data = {
+    'artist': artist,
+    'upcoming_shows': upcoming_shows,
+    'past_shows': past_shows
+  }
+    
+  return render_template('pages/show_artist.html', **data)
 
 #  Update
 #  ----------------------------------------------------------------
